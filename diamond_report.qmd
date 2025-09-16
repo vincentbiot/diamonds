@@ -1,0 +1,63 @@
+---
+title: "Diamond"
+format: html
+---
+
+
+```{r}
+library(ggplot2)
+library(scales)
+```
+
+
+```{r}
+# Chargement des bibliothèques nécessaires
+library(ggplot2)
+library(dplyr)
+library(scales)
+
+
+# Création d'un graphique élégant
+ggplot(diamonds, aes(x = carat, y = price, color = cut)) +
+  # Points avec transparence pour éviter la surcharge
+  geom_point(alpha = 0.6, size = 0.8) +
+  
+  # Ligne de tendance lisse pour chaque type de cut
+  geom_smooth(method = "loess", se = FALSE, size = 1.2) +
+  
+  # Palette de couleurs élégante
+  scale_color_viridis_d(name = "Qualité de\nla taille", 
+                        option = "plasma",
+                        begin = 0.1, end = 0.9) +
+  
+  # Formatage des axes
+  scale_x_continuous(name = "Poids (carats)", 
+                     breaks = seq(0, 5, 0.5),
+                     labels = number_format(accuracy = 0.1)) +
+  
+  scale_y_continuous(name = "Prix (USD)", 
+                     labels = dollar_format(),
+                     breaks = seq(0, 20000, 5000)) +
+  
+  # Thème élégant
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5, 
+                              margin = margin(b = 20)),
+    plot.subtitle = element_text(size = 12, hjust = 0.5, 
+                                 color = "gray50", margin = margin(b = 20)),
+    legend.position = "right",
+    legend.title = element_text(face = "bold"),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(color = "gray90", size = 0.5),
+    plot.background = element_rect(fill = "white", color = NA),
+    panel.background = element_rect(fill = "gray98", color = NA)
+  ) +
+  
+  # Titres
+  labs(
+    title = "Relation entre le poids et le prix des diamants",
+    subtitle = "Analyse selon la qualité de la taille - Dataset diamonds",
+    caption = "Source: ggplot2::diamonds | Visualisation avec ggplot2"
+  )
+```
